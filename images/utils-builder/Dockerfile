@@ -15,6 +15,8 @@
 # Sadly we can't update to 0.3 (stretch), because that version FTBFS statically
 FROM k8s.gcr.io/debian-base-amd64:0.2
 
+RUN echo "deb http://deb.debian.org/debian jessie main" > /etc/apt/sources.list
+RUN echo "deb http://security.debian.org jessie/updates main" >> /etc/apt/sources.list
 RUN echo "deb-src http://security.debian.org/ jessie/updates main" >> /etc/apt/sources.list
 RUN echo "deb-src http://ftp.us.debian.org/debian/ jessie main" >> /etc/apt/sources.list
 
