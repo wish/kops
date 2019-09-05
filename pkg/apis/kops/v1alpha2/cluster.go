@@ -513,8 +513,8 @@ func (t *TerraformSpec) IsEmpty() bool {
 }
 
 type GossipConfig struct {
-	Protocol  *string `json:"protocol,omitempty"`
-	Listen    *string `json:"listen,omitempty"`
-	Secret    *string `json:"secret,omitempty"`
+	Protocol  *string       `json:"protocol,omitempty"`
+	Listen    *string       `json:"listen,omitempty"`
+	Secret    *string       `json:"secret,omitempty"`
 	Secondary *GossipConfig `json:"secondary,omitempty"`
 }

@@ -1589,6 +1589,15 @@ func autoConvert_v1alpha2_ClusterSpec_To_kops_ClusterSpec(in *ClusterSpec, out *
 	out.KeyStore = in.KeyStore
 	out.ConfigStore = in.ConfigStore
 	out.DNSZone = in.DNSZone
+	if in.DNSControllerGossipConfig != nil {
+		in, out := &in.DNSControllerGossipConfig, &out.DNSControllerGossipConfig
+		*out = new(kops.GossipConfig)
+		if err := Convert_v1alpha2_GossipConfig_To_kops_GossipConfig(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.DNSControllerGossipConfig = nil
+	}
 	out.AdditionalSANs = in.AdditionalSANs
 	out.ClusterDNSDomain = in.ClusterDNSDomain
 	out.ServiceClusterIPRange = in.ServiceClusterIPRange
@@ -1880,6 +1889,15 @@ func autoConvert_kops_ClusterSpec_To_v1alpha2_ClusterSpec(in *kops.ClusterSpec, 
 	out.KeyStore = in.KeyStore
 	out.ConfigStore = in.ConfigStore
 	out.DNSZone = in.DNSZone
+	if in.DNSControllerGossipConfig != nil {
+		in, out := &in.DNSControllerGossipConfig, &out.DNSControllerGossipConfig
+		*out = new(GossipConfig)
+		if err := Convert_kops_GossipConfig_To_v1alpha2_GossipConfig(*in, *out, s); err != nil {
+			return err
+		}
+	} else {
+		out.DNSControllerGossipConfig = nil
+	}
 	out.AdditionalSANs = in.AdditionalSANs
 	out.ClusterDNSDomain = in.ClusterDNSDomain
 	out.ServiceClusterIPRange = in.ServiceClusterIPRange
