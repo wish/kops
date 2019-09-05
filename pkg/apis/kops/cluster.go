@@ -590,8 +590,8 @@ func (c *Cluster) SharedVPC() bool {
 }
 
 type GossipConfig struct {
-    Protocol *string `json:"protocol"`
-    Listen *string `json:"listen"`
-    Secret *string `json:"secret"`
-    Secondary *GossipConfig
+	Protocol  *string `json:"protocol"`
+	Listen    *string `json:"listen"`
+	Secret    *string `json:"secret"`
+	Secondary *GossipConfig
 }
