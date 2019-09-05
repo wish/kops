@@ -559,11 +559,11 @@
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
 
 [[projects]]
-  digest = "1:62dfb39fe3bddeabb02cc001075ed9f951b044da2cd5b0f970ca798b1553bac3"
+  digest = "1:0bfbe13936953a98ae3cfe8ed6670d396ad81edf069a806d2f6515d7bb6950df"
   name = "github.com/google/btree"
   packages = ["."]
   pruneopts = "UT"
-  revision = "7d79101e329e5a3adf994758c578dab82b90c017"
+  revision = "4030bb1f1f0c35b30ca7009e9ebd06849dd45306"
 
 [[projects]]
   branch = "master"

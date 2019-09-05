@@ -185,7 +185,7 @@ required = [
   revision = "5bd2802263f21d8788851d5305584c82a5c75d7e"
 [[override]]
   name = "github.com/google/btree"
-  revision = "7d79101e329e5a3adf994758c578dab82b90c017"
+  revision = "4030bb1f1f0c35b30ca7009e9ebd06849dd45306"
 [[override]]
   name = "github.com/docker/spdystream"
   revision = "449fdfce4d962303d702fec724ef0ad181c92528"
