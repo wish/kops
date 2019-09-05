@@ -30,6 +30,7 @@ package cloudup
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -208,30 +209,39 @@ func (tf *TemplateFunctions) DnsControllerArgv() ([]string, error) {
 	if dns.IsGossipHostname(tf.cluster.Spec.MasterInternalName) {
 		argv = append(argv, "--dns=gossip")
 
-		if tf.cluster.Spec.GossipConfig != nil {
-			if tf.cluster.Spec.GossipConfig.Protocol != nil {
-				argv = append(argv, "--gossip-protocol="+*tf.cluster.Spec.GossipConfig.Protocol)
+		if tf.cluster.Spec.GossipConfig != nil && tf.cluster.Spec.GossipConfig.Listen != nil {
+			_, portString, err := net.SplitHostPort(*tf.cluster.Spec.GossipConfig.Listen)
+			if err != nil {
+				return nil, err
 			}
-			if tf.cluster.Spec.GossipConfig.Listen != nil {
-				argv = append(argv, "--gossip-listen="+*tf.cluster.Spec.GossipConfig.Listen)
-			}
-			if tf.cluster.Spec.GossipConfig.Secret != nil {
-				argv = append(argv, "--gossip-secret="+*tf.cluster.Spec.GossipConfig.Secret)
-			}
-
-			if tf.cluster.Spec.GossipConfig.Secondary != nil {
-				if tf.cluster.Spec.GossipConfig.Secondary.Protocol != nil {
-					argv = append(argv, "--gossip-protocol-secondary="+*tf.cluster.Spec.GossipConfig.Secondary.Protocol)
-				}
-				if tf.cluster.Spec.GossipConfig.Secondary.Listen != nil {
-					argv = append(argv, "--gossip-listen-secondary="+*tf.cluster.Spec.GossipConfig.Secondary.Listen)
-				}
-				if tf.cluster.Spec.GossipConfig.Secondary.Secret != nil {
-					argv = append(argv, "--gossip-secret-secondary="+*tf.cluster.Spec.GossipConfig.Secondary.Secret)
-				}
-			}
+			argv = append(argv, "--gossip-seed=127.0.0.1:"+portString)
 		} else {
 			argv = append(argv, "--gossip-seed=127.0.0.1:3999")
+		}
+
+		// Configuration specifically for the DNS controller gossip
+		if tf.cluster.Spec.DNSControllerGossipConfig != nil {
+			if tf.cluster.Spec.DNSControllerGossipConfig.Protocol != nil {
+				argv = append(argv, "--gossip-protocol="+*tf.cluster.Spec.DNSControllerGossipConfig.Protocol)
+			}
+			if tf.cluster.Spec.DNSControllerGossipConfig.Listen != nil {
+				argv = append(argv, "--gossip-listen="+*tf.cluster.Spec.DNSControllerGossipConfig.Listen)
+			}
+			if tf.cluster.Spec.DNSControllerGossipConfig.Secret != nil {
+				argv = append(argv, "--gossip-secret="+*tf.cluster.Spec.DNSControllerGossipConfig.Secret)
+			}
+
+			if tf.cluster.Spec.DNSControllerGossipConfig.Secondary != nil {
+				if tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Protocol != nil {
+					argv = append(argv, "--gossip-protocol-secondary="+*tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Protocol)
+				}
+				if tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Listen != nil {
+					argv = append(argv, "--gossip-listen-secondary="+*tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Listen)
+				}
+				if tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Secret != nil {
+					argv = append(argv, "--gossip-secret-secondary="+*tf.cluster.Spec.DNSControllerGossipConfig.Secondary.Secret)
+				}
+			}
 		}
 
 	} else {
