@@ -668,6 +668,11 @@ func (in *ClusterSpec) DeepCopyInto(out *ClusterSpec) {
 		*out = new(TopologySpec)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DNSControllerGossipConfig != nil {
+		in, out := &in.DNSControllerGossipConfig, &out.DNSControllerGossipConfig
+		*out = new(GossipConfig)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.AdditionalSANs != nil {
 		in, out := &in.AdditionalSANs, &out.AdditionalSANs
 		*out = make([]string, len(*in))
