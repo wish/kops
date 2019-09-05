@@ -154,7 +154,7 @@ func main() {
 
 			secondaryGossipState, err := getGossipState(gossipProtocolSecondary, gossipListenSecondary, channelName, gossipName, []byte(gossipSecretSecondary), gossipSeeds)
 			if err != nil {
-				klog.Errorf("Error initializing secondary gossip: %v", err)
+				glog.Errorf("Error initializing secondary gossip: %v", err)
 				os.Exit(1)
 			}
 
