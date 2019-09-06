@@ -215,6 +215,14 @@ func (tf *TemplateFunctions) DnsControllerArgv() ([]string, error) {
 				return nil, err
 			}
 			argv = append(argv, "--gossip-seed=127.0.0.1:"+portString)
+			
+			if tf.cluster.Spec.GossipConfig.Secondary != nil {
+			    _, portString, err := net.SplitHostPort(*tf.cluster.Spec.GossipConfig.Secondary.Listen)
+			    if err != nil {
+				    return nil, err
+			    }
+			    argv = append(argv, "--gossip-seed-secondary=127.0.0.1:"+portString)
+			}
 		} else {
 			argv = append(argv, "--gossip-seed=127.0.0.1:3999")
 		}
