@@ -227,13 +227,13 @@ type ProtokubeFlags struct {
 	// We use it e.g. for the switch to etcd-manager
 	RemoveDNSNames string `json:"removeDNSNames,omitempty" flag:"remove-dns-names"`
 
-	GossipProtocol *string `json:"gossip-protocol"`
-	GossipListen   *string `json:"gossip-listen"`
-	GossipSecret   *string `json:"gossip-secret"`
+	GossipProtocol *string `json:"gossip-protocol" flag:"gossip-protocol"`
+	GossipListen   *string `json:"gossip-listen" flag:"gossip-listen"`
+	GossipSecret   *string `json:"gossip-secret" flag:"gossip-secret"`
 
-	GossipProtocolSecondary *string `json:"gossip-protocol-secondary"`
-	GossipListenSecondary   *string `json:"gossip-listen-secondary"`
-	GossipSecretSecondary   *string `json:"gossip-secret-secondary"`
+	GossipProtocolSecondary *string `json:"gossip-protocol-secondary" flag:"gossip-protocol-secondary"`
+	GossipListenSecondary   *string `json:"gossip-listen-secondary" flag:"gossip-listen-secondary"`
+	GossipSecretSecondary   *string `json:"gossip-secret-secondary" json:"gossip-secret-secondary"`
 }
 
 // ProtokubeFlags is responsible for building the command line flags for protokube
