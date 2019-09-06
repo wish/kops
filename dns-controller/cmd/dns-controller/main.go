@@ -56,7 +56,7 @@ var (
 func main() {
 	fmt.Printf("dns-controller version %s\n", BuildVersion)
 	var dnsServer, dnsProviderID, gossipListen, gossipSecret, watchNamespace, metricsListen, gossipProtocol, gossipSecretSecondary, gossipListenSecondary, gossipProtocolSecondary string
-	var gossipSeeds, zones []string
+	var gossipSeeds, gossipSeedsSecondary, zones []string
 	var watchIngress bool
 	var updateInterval int
 
@@ -74,7 +74,8 @@ func main() {
 	flags.StringVar(&gossipSecret, "gossip-secret", gossipSecret, "Secret to use to secure gossip")
 	flag.StringVar(&gossipProtocolSecondary, "gossip-protocol-secondary", "", "mesh/memberlist")
 	flag.StringVar(&gossipListenSecondary, "gossip-listen-secondary", "0.0.0.0:4000", "address:port on which to bind for gossip")
-	flags.StringVar(&gossipSecretSecondary, "gossip-secret-secondary", gossipSecret, "Secret to use to secure gossip")
+	flags.StringVar(&gossipSecretSecondary, "gossip-secret-secondary", gossipSecretSecondary, "Secret to use to secure gossip")
+	flags.StringSliceVar(&gossipSeedsSecondary, "gossip-seed-secondary", gossipSeedsSecondary, "If set, will enable gossip zones and seed using the provided addresses")
 	flags.StringVar(&watchNamespace, "watch-namespace", "", "Limits the functionality for pods, services and ingress to specific namespace, by default all")
 	flag.IntVar(&route53.MaxBatchSize, "route53-batch-size", route53.MaxBatchSize, "Maximum number of operations performed per changeset batch")
 	flag.StringVar(&metricsListen, "metrics-listen", "", "The address on which to listen for Prometheus metrics.")
@@ -152,8 +153,8 @@ func main() {
 		}
 
 		if gossipProtocolSecondary != "" {
-
-			secondaryGossipState, err := getGossipState(gossipProtocolSecondary, gossipListenSecondary, channelName, gossipName, []byte(gossipSecretSecondary), gossipSeeds)
+		
+			secondaryGossipState, err := getGossipState(gossipProtocolSecondary, gossipListenSecondary, channelName, gossipName, []byte(gossipSecretSecondary), gossip.NewStaticSeedProvider(gossipSeedsSecondary))
 			if err != nil {
 				klog.Errorf("Error initializing secondary gossip: %v", err)
 				os.Exit(1)
