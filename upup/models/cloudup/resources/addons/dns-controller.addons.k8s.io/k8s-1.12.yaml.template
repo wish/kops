@@ -31,7 +31,7 @@ spec:
       serviceAccount: dns-controller
       containers:
       - name: dns-controller
-        image: kope/dns-controller:1.13.2
+        image: quay.io/jacksontj/dns-controller:v1.12.0-memberlist-1
         command:
 {{ range $arg := DnsControllerArgv }}
         - "{{ $arg }}"
