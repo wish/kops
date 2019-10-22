@@ -97,8 +97,12 @@ func (b *NodeAuthorizationBuilder) Build(c *fi.ModelBuilderContext) error {
 			timeout = na.Timeout.Duration
 		}
 
+		// bash loop is a hack until https://github.com/systemd/systemd/pull/13754 wends its
+		// way through the release process
+
 		// @node: using a string array just to make it easier to read
 		dockerCmd := []string{
+			"/bin/bash -c 'until",
 			"/usr/bin/docker",
 			"run",
 			"--rm",
@@ -116,7 +120,9 @@ func (b *NodeAuthorizationBuilder) Build(c *fi.ModelBuilderContext) error {
 			"--tls-client-ca=/config/ca.pem",
 			"--tls-cert=/config/tls.pem",
 			"--tls-private-key=/config/tls-key.pem",
+			"; do echo node-authorizer failed, restarting in 2 seconds; sleep 2; done'",
 		}
+
 		man.Set("Service", "ExecStart", strings.Join(dockerCmd, " "))
 
 		// @step: add the service task
