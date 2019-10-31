@@ -65,15 +65,23 @@ var _ fi.HasName = &Service{}
 
 func (p *Service) GetDependencies(tasks map[string]fi.Task) []fi.Task {
 	var deps []fi.Task
-	for _, v := range tasks {
+	for name, v := range tasks {
 		// We assume that services depend on everything except for
 		// LoadImageTask. If there are any LoadImageTasks (e.g. we're
 		// launching a custom Kubernetes build), they all depend on
 		// the "docker.service" Service task.
+		// However, if protokube is being loaded using a LoadImageTask
+		// we run that first, before any other service
 		switch v.(type) {
 		case *File, *Package, *UpdatePackages, *UserTask, *GroupTask, *MountDiskTask, *Chattr:
 			deps = append(deps, v)
-		case *Service, *LoadImageTask:
+		case *LoadImageTask:
+			// Since basically nothing works without the protokube image
+			// do that first, right after restarting docker
+			if p.Name != "docker.service" && name == "LoadImage.protokube" {
+				deps = append(deps, v)
+			}
+		case *Service:
 			// ignore
 		default:
 			klog.Warningf("Unhandled type %T in Service::GetDependencies: %v", v, v)
