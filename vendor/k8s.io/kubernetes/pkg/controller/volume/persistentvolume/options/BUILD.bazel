@@ -1,0 +1,10 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["options.go"],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/pkg/controller/volume/persistentvolume/options",
+    importpath = "k8s.io/kubernetes/pkg/controller/volume/persistentvolume/options",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/spf13/pflag:go_default_library"],
+)

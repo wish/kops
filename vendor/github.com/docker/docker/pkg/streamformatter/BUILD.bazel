@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "streamformatter.go",
+        "streamwriter.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/streamformatter",
+    importpath = "github.com/docker/docker/pkg/streamformatter",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/docker/docker/pkg/jsonmessage:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/progress:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "streamformatter_test.go",
+        "streamwriter_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/docker/docker/pkg/jsonmessage:go_default_library",
+        "//vendor/github.com/google/go-cmp/cmp:go_default_library",
+        "//vendor/github.com/google/go-cmp/cmp/cmpopts:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+    ],
+)

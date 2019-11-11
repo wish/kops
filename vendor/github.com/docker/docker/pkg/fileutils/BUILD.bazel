@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "fileutils.go",
+        "fileutils_darwin.go",
+        "fileutils_unix.go",
+        "fileutils_windows.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/fileutils",
+    importpath = "github.com/docker/docker/pkg/fileutils",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/sirupsen/logrus:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["fileutils_test.go"],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+    ],
+)

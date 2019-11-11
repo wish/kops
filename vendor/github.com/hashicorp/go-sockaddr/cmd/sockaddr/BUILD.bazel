@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "commands.go",
+        "main.go",
+        "version.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/hashicorp/go-sockaddr/cmd/sockaddr",
+    importpath = "github.com/hashicorp/go-sockaddr/cmd/sockaddr",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//vendor/github.com/hashicorp/go-sockaddr/cmd/sockaddr/command:go_default_library",
+        "//vendor/github.com/mitchellh/cli:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "sockaddr",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

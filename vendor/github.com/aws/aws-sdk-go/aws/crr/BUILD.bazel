@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "cache.go",
+        "endpoint.go",
+        "sync_map.go",
+        "sync_map_1_8.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/aws/aws-sdk-go/aws/crr",
+    importpath = "github.com/aws/aws-sdk-go/aws/crr",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/aws/aws-sdk-go/aws:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "cache_test.go",
+        "sync_map_test.go",
+    ],
+    embed = [":go_default_library"],
+)

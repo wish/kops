@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "asm.S",
+        "foo.c",
+        "foo.go",
+        "foo.h",
+        "pure.go",
+    ],
+    cgo = True,
+    clinkopts = ["-lweird"],
+    copts = [
+        "-I vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib/sub -iquote vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib/sub",
+        "-I/weird/path -Ivendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib/sub -Ivendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/othersub",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib",
+    importpath = "github.com/bazelbuild/bazel-gazelle/language/go/testdata/cgolib",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/example.com/repo/lib:go_default_library",
+        "//vendor/example.com/repo/lib/deep:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["foo_test.go"],
+    embed = [":go_default_library"],
+)

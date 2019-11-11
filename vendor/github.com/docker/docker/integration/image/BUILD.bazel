@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "commit_test.go",
+        "import_test.go",
+        "main_test.go",
+        "remove_test.go",
+        "tag_test.go",
+    ],
+    deps = [
+        "//vendor/github.com/docker/docker/api/types:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/versions:go_default_library",
+        "//vendor/github.com/docker/docker/integration/internal/container:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/environment:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/request:go_default_library",
+        "//vendor/github.com/docker/docker/internal/testutil:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/skip:go_default_library",
+    ],
+)

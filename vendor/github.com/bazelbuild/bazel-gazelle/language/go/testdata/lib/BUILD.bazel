@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "asm.h",
+        "asm.s",
+        "doc.go",
+        "lib.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/lib",
+    importpath = "github.com/bazelbuild/bazel-gazelle/language/go/testdata/lib",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/example.com/repo/lib/internal/deep:go_default_library",
+        "//vendor/lib.invalid/does/not/exist:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "lib_external_test.go",
+        "lib_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = ["//vendor/example.com/repo/lib:go_default_library"],
+)

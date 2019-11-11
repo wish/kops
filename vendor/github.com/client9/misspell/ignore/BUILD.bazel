@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "glob.go",
+        "parse.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/client9/misspell/ignore",
+    importpath = "github.com/client9/misspell/ignore",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/gobwas/glob:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["parse_test.go"],
+    embed = [":go_default_library"],
+)

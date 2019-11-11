@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "builder_context.go",
+        "fileinfosums.go",
+        "tarsum.go",
+        "versioning.go",
+        "writercloser.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/tarsum",
+    importpath = "github.com/docker/docker/pkg/tarsum",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "builder_context_test.go",
+        "fileinfosums_test.go",
+        "tarsum_test.go",
+        "versioning_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+    ],
+)

@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "main_test.go",
+        "serving_test.go",
+    ],
+    deps = [
+        "//vendor/k8s.io/api/rbac/v1:go_default_library",
+        "//vendor/k8s.io/apimachinery/pkg/apis/meta/v1:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server/options:go_default_library",
+        "//vendor/k8s.io/client-go/kubernetes:go_default_library",
+        "//vendor/k8s.io/cloud-provider:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/cloud-controller-manager/app/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/kube-apiserver/app/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/kube-controller-manager/app/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/kube-scheduler/app/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/cloudprovider/providers/fake:go_default_library",
+        "//vendor/k8s.io/kubernetes/test/integration/framework:go_default_library",
+    ],
+)

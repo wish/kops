@@ -1,0 +1,38 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "errors.go",
+        "projectquota.go",
+    ],
+    cgo = True,
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/daemon/graphdriver/quota",
+    importpath = "github.com/docker/docker/daemon/graphdriver/quota",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/docker/docker/errdefs:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/opencontainers/runc/libcontainer/system:go_default_library",
+            "//vendor/github.com/sirupsen/logrus:go_default_library",
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["projectquota_test.go"],
+    embed = [":go_default_library"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+            "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+            "//vendor/github.com/gotestyourself/gotestyourself/fs:go_default_library",
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

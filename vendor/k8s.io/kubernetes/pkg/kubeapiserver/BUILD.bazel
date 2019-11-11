@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "default_storage_factory_builder.go",
+        "doc.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/pkg/kubeapiserver",
+    importpath = "k8s.io/kubernetes/pkg/kubeapiserver",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/k8s.io/apimachinery/pkg/runtime:go_default_library",
+        "//vendor/k8s.io/apimachinery/pkg/runtime/schema:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server/options:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server/options/encryptionconfig:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server/resourceconfig:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/server/storage:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/storage/storagebackend:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/api/legacyscheme:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/admissionregistration:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/apps:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/batch:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/core:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/events:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/extensions:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/networking:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/policy:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/apis/storage:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/kubeapiserver/options:go_default_library",
+    ],
+)

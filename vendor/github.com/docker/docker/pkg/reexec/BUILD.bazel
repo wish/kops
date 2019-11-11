@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "command_linux.go",
+        "command_unix.go",
+        "command_unsupported.go",
+        "command_windows.go",
+        "reexec.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/reexec",
+    importpath = "github.com/docker/docker/pkg/reexec",
+    visibility = ["//visibility:public"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["reexec_test.go"],
+    embed = [":go_default_library"],
+    deps = ["//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library"],
+)

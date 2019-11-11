@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "build_session_test.go",
+        "build_squash_test.go",
+        "build_test.go",
+        "main_test.go",
+    ],
+    deps = [
+        "//vendor/github.com/docker/docker/api/types:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/filters:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/versions:go_default_library",
+        "//vendor/github.com/docker/docker/client:go_default_library",
+        "//vendor/github.com/docker/docker/integration/internal/container:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/environment:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/fakecontext:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/request:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/jsonmessage:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/stdcopy:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/skip:go_default_library",
+        "//vendor/github.com/moby/buildkit/session:go_default_library",
+        "//vendor/github.com/moby/buildkit/session/filesync:go_default_library",
+        "//vendor/golang.org/x/sync/errgroup:go_default_library",
+    ],
+)

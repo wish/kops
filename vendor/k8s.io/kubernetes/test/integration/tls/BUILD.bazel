@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "ciphers_test.go",
+        "main_test.go",
+    ],
+    deps = [
+        "//vendor/k8s.io/kubernetes/cmd/kube-apiserver/app/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/test/integration/framework:go_default_library",
+    ],
+)

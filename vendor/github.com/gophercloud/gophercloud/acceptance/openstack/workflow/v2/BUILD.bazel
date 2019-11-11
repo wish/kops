@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "crontrigger.go",
+        "execution.go",
+        "workflow.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/gophercloud/gophercloud/acceptance/openstack/workflow/v2",
+    importpath = "github.com/gophercloud/gophercloud/acceptance/openstack/workflow/v2",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/gophercloud/gophercloud:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/tools:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/crontriggers:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/executions:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/workflows:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/testhelper:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "crontriggers_test.go",
+        "executions_test.go",
+        "workflows_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/clients:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/tools:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/crontriggers:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/executions:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/workflow/v2/workflows:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/testhelper:go_default_library",
+    ],
+)

@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["informers.go"],
+    importmap = "k8s.io/kops/vendor/github.com/kubernetes-incubator/apiserver-builder/example/pkg/controller/sharedinformers",
+    importpath = "github.com/kubernetes-incubator/apiserver-builder/example/pkg/controller/sharedinformers",
+    visibility = ["//visibility:public"],
+)

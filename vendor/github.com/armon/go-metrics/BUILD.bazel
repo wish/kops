@@ -1,0 +1,37 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "const_unix.go",
+        "const_windows.go",
+        "inmem.go",
+        "inmem_endpoint.go",
+        "inmem_signal.go",
+        "metrics.go",
+        "sink.go",
+        "start.go",
+        "statsd.go",
+        "statsite.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/armon/go-metrics",
+    importpath = "github.com/armon/go-metrics",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/hashicorp/go-immutable-radix:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "inmem_endpoint_test.go",
+        "inmem_signal_test.go",
+        "inmem_test.go",
+        "metrics_test.go",
+        "sink_test.go",
+        "start_test.go",
+        "statsd_test.go",
+        "statsite_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = ["//vendor/github.com/pascaldekloe/goe/verify:go_default_library"],
+)

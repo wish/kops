@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "chartrepo.go",
+        "doc.go",
+        "index.go",
+        "local.go",
+        "repo.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/repo",
+    importpath = "k8s.io/helm/pkg/repo",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/semver:go_default_library",
+        "//vendor/github.com/ghodss/yaml:go_default_library",
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/getter:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+        "//vendor/k8s.io/helm/pkg/provenance:go_default_library",
+        "//vendor/k8s.io/helm/pkg/urlutil:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "chartrepo_test.go",
+        "index_test.go",
+        "local_test.go",
+        "repo_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/k8s.io/helm/pkg/getter:go_default_library",
+        "//vendor/k8s.io/helm/pkg/helm/environment:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+    ],
+)

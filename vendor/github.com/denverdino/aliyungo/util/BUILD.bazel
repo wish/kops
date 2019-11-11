@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -12,4 +12,16 @@ go_library(
     importmap = "k8s.io/kops/vendor/github.com/denverdino/aliyungo/util",
     importpath = "github.com/denverdino/aliyungo/util",
     visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "attempt_test.go",
+        "encoding_test.go",
+        "iso6801_test.go",
+        "signature_test.go",
+        "util_test.go",
+    ],
+    embed = [":go_default_library"],
 )

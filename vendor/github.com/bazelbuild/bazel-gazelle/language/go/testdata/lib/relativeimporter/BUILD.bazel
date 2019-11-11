@@ -1,0 +1,10 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["importer.go"],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/lib/relativeimporter",
+    importpath = "github.com/bazelbuild/bazel-gazelle/language/go/testdata/lib/relativeimporter",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/lib/internal/deep:go_default_library"],
+)

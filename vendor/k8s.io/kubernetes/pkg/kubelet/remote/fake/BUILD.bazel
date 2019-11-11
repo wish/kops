@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "endpoint.go",
+        "endpoint_windows.go",
+        "fake_image_service.go",
+        "fake_runtime.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/pkg/kubelet/remote/fake",
+    importpath = "k8s.io/kubernetes/pkg/kubelet/remote/fake",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/google.golang.org/grpc:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/kubelet/apis/cri/runtime/v1alpha2:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/kubelet/apis/cri/testing:go_default_library",
+        "//vendor/k8s.io/kubernetes/pkg/kubelet/util:go_default_library",
+        "//vendor/k8s.io/utils/exec:go_default_library",
+    ],
+)

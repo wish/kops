@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "common.go",
+        "reader.go",
+        "stat_atim.go",
+        "stat_atimespec.go",
+        "stat_unix.go",
+        "writer.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/Microsoft/go-winio/archive/tar",
+    importpath = "github.com/Microsoft/go-winio/archive/tar",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "example_test.go",
+        "reader_test.go",
+        "tar_test.go",
+        "writer_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+)

@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["dogstatsd.go"],
+    importmap = "k8s.io/kops/vendor/github.com/armon/go-metrics/datadog",
+    importpath = "github.com/armon/go-metrics/datadog",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/DataDog/datadog-go/statsd:go_default_library",
+        "//vendor/github.com/armon/go-metrics:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["dogstatsd_test.go"],
+    embed = [":go_default_library"],
+    deps = ["//vendor/github.com/armon/go-metrics:go_default_library"],
+)

@@ -1,0 +1,36 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "getter.go",
+        "httpgetter.go",
+        "plugingetter.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/getter",
+    importpath = "k8s.io/helm/pkg/getter",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/k8s.io/helm/pkg/helm/environment:go_default_library",
+        "//vendor/k8s.io/helm/pkg/plugin:go_default_library",
+        "//vendor/k8s.io/helm/pkg/tlsutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/urlutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/version:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "getter_test.go",
+        "httpgetter_test.go",
+        "plugingetter_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/k8s.io/helm/pkg/helm/environment:go_default_library",
+        "//vendor/k8s.io/helm/pkg/helm/helmpath:go_default_library",
+    ],
+)

@@ -1,0 +1,41 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "ctrl.go",
+        "etcd_store.go",
+        "key_helpers.go",
+        "membership.go",
+        "packet_transport.go",
+        "server.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/weaveworks/mesh/_metcd",
+    importpath = "github.com/weaveworks/mesh/_metcd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/coreos/etcd/etcdserver/etcdserverpb:go_default_library",
+        "//vendor/github.com/coreos/etcd/lease:go_default_library",
+        "//vendor/github.com/coreos/etcd/mvcc:go_default_library",
+        "//vendor/github.com/coreos/etcd/mvcc/backend:go_default_library",
+        "//vendor/github.com/coreos/etcd/mvcc/mvccpb:go_default_library",
+        "//vendor/github.com/coreos/etcd/raft:go_default_library",
+        "//vendor/github.com/coreos/etcd/raft/raftpb:go_default_library",
+        "//vendor/github.com/gogo/protobuf/proto:go_default_library",
+        "//vendor/github.com/weaveworks/mesh:go_default_library",
+        "//vendor/github.com/weaveworks/mesh/meshconn:go_default_library",
+        "//vendor/golang.org/x/net/context:go_default_library",
+        "//vendor/google.golang.org/grpc:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["ctrl_test.go"],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/coreos/etcd/raft/raftpb:go_default_library",
+        "//vendor/github.com/weaveworks/mesh:go_default_library",
+        "//vendor/github.com/weaveworks/mesh/meshconn:go_default_library",
+    ],
+)

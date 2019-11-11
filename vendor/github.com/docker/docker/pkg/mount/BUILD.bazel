@@ -1,0 +1,54 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "flags.go",
+        "flags_freebsd.go",
+        "flags_linux.go",
+        "flags_unsupported.go",
+        "mount.go",
+        "mounter_freebsd.go",
+        "mounter_linux.go",
+        "mounter_unsupported.go",
+        "mountinfo.go",
+        "mountinfo_freebsd.go",
+        "mountinfo_linux.go",
+        "mountinfo_unsupported.go",
+        "mountinfo_windows.go",
+        "sharedsubtree_linux.go",
+    ],
+    cgo = True,
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/mount",
+    importpath = "github.com/docker/docker/pkg/mount",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/sirupsen/logrus:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:freebsd": [
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "mount_unix_test.go",
+        "mounter_linux_test.go",
+        "mountinfo_linux_test.go",
+        "sharedsubtree_linux_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "benchmark.go",
+        "check.go",
+        "checkers.go",
+        "helpers.go",
+        "printer.go",
+        "run.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/magiconair/properties/_third_party/gopkg.in/check.v1",
+    importpath = "github.com/magiconair/properties/_third_party/gopkg.in/check.v1",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "benchmark_test.go",
+        "bootstrap_test.go",
+        "check_test.go",
+        "checkers_test.go",
+        "export_test.go",
+        "fixture_test.go",
+        "foundation_test.go",
+        "helpers_test.go",
+        "printer_test.go",
+        "run_test.go",
+    ],
+    embed = [":go_default_library"],
+)

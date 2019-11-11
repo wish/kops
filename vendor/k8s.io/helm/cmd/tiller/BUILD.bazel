@@ -1,0 +1,49 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "probes.go",
+        "tiller.go",
+        "trace.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/cmd/tiller",
+    importpath = "k8s.io/helm/cmd/tiller",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//vendor/github.com/grpc-ecosystem/go-grpc-prometheus:go_default_library",
+        "//vendor/github.com/prometheus/client_golang/prometheus/promhttp:go_default_library",
+        "//vendor/google.golang.org/grpc:go_default_library",
+        "//vendor/google.golang.org/grpc/credentials:go_default_library",
+        "//vendor/google.golang.org/grpc/health:go_default_library",
+        "//vendor/google.golang.org/grpc/health/grpc_health_v1:go_default_library",
+        "//vendor/google.golang.org/grpc/keepalive:go_default_library",
+        "//vendor/k8s.io/helm/pkg/kube:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/services:go_default_library",
+        "//vendor/k8s.io/helm/pkg/storage:go_default_library",
+        "//vendor/k8s.io/helm/pkg/storage/driver:go_default_library",
+        "//vendor/k8s.io/helm/pkg/tiller:go_default_library",
+        "//vendor/k8s.io/helm/pkg/tiller/environment:go_default_library",
+        "//vendor/k8s.io/helm/pkg/tlsutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/version:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "tiller",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "probes_test.go",
+        "tiller_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/k8s.io/helm/pkg/engine:go_default_library",
+        "//vendor/k8s.io/helm/pkg/tiller/environment:go_default_library",
+    ],
+)

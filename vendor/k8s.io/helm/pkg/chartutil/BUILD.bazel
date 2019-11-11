@@ -1,0 +1,58 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "capabilities.go",
+        "chartfile.go",
+        "create.go",
+        "doc.go",
+        "expand.go",
+        "files.go",
+        "load.go",
+        "requirements.go",
+        "save.go",
+        "transform.go",
+        "values.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/chartutil",
+    importpath = "k8s.io/helm/pkg/chartutil",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/BurntSushi/toml:go_default_library",
+        "//vendor/github.com/ghodss/yaml:go_default_library",
+        "//vendor/github.com/gobwas/glob:go_default_library",
+        "//vendor/github.com/golang/protobuf/ptypes/any:go_default_library",
+        "//vendor/github.com/golang/protobuf/ptypes/timestamp:go_default_library",
+        "//vendor/k8s.io/apimachinery/pkg/version:go_default_library",
+        "//vendor/k8s.io/helm/pkg/ignore:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/version:go_default_library",
+        "//vendor/k8s.io/helm/pkg/sympath:go_default_library",
+        "//vendor/k8s.io/helm/pkg/version:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "capabilities_test.go",
+        "chartfile_test.go",
+        "create_test.go",
+        "files_test.go",
+        "load_test.go",
+        "requirements_test.go",
+        "save_test.go",
+        "values_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/golang/protobuf/ptypes/any:go_default_library",
+        "//vendor/github.com/stretchr/testify/assert:go_default_library",
+        "//vendor/k8s.io/apimachinery/pkg/version:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+        "//vendor/k8s.io/helm/pkg/timeconv:go_default_library",
+        "//vendor/k8s.io/helm/pkg/version:go_default_library",
+    ],
+)
