@@ -1,0 +1,18 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "gen_static_darwin.go",
+        "static.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/bazel-gazelle/language/go/testdata/gen_and_exclude",
+    importpath = "github.com/bazelbuild/bazel-gazelle/language/go/testdata/gen_and_exclude",
+    visibility = ["//visibility:public"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:darwin": [
+            "//vendor/github.com/jr_hacker/darwin:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

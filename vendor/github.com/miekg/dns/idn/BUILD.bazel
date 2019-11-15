@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "code_points.go",
+        "punycode.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/miekg/dns/idn",
+    importpath = "github.com/miekg/dns/idn",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/miekg/dns:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "example_test.go",
+        "punycode_test.go",
+    ],
+    embed = [":go_default_library"],
+)

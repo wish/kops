@@ -1,0 +1,40 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "signal.go",
+        "signal_darwin.go",
+        "signal_freebsd.go",
+        "signal_linux.go",
+        "signal_unix.go",
+        "signal_unsupported.go",
+        "signal_windows.go",
+        "trap.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/signal",
+    importpath = "github.com/docker/docker/pkg/signal",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/pkg/errors:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "signal_linux_test.go",
+        "signal_test.go",
+        "trap_linux_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+    ],
+)

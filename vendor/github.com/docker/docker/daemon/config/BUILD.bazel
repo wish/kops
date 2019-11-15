@@ -1,0 +1,105 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "config.go",
+        "config_common_unix.go",
+        "config_unix.go",
+        "config_windows.go",
+        "opts.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/daemon/config",
+    importpath = "github.com/docker/docker/daemon/config",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/docker/docker/api/types/swarm:go_default_library",
+        "//vendor/github.com/docker/docker/daemon/cluster/convert:go_default_library",
+        "//vendor/github.com/docker/docker/daemon/discovery:go_default_library",
+        "//vendor/github.com/docker/docker/opts:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/authorization:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/discovery:go_default_library",
+        "//vendor/github.com/docker/docker/registry:go_default_library",
+        "//vendor/github.com/docker/swarmkit/api/genericresource:go_default_library",
+        "//vendor/github.com/imdario/mergo:go_default_library",
+        "//vendor/github.com/sirupsen/logrus:go_default_library",
+        "//vendor/github.com/spf13/pflag:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:freebsd": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/docker/api/types/container:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/docker/api/types/container:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:windows": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "config_common_unix_test.go",
+        "config_test.go",
+        "config_unix_test.go",
+        "config_windows_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/docker/docker/daemon/discovery:go_default_library",
+        "//vendor/github.com/docker/docker/opts:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/fs:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/skip:go_default_library",
+        "//vendor/github.com/spf13/pflag:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:android": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:darwin": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:dragonfly": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:freebsd": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:nacl": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:netbsd": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:openbsd": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:plan9": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "@io_bazel_rules_go//go/platform:solaris": [
+            "//vendor/github.com/docker/docker/api/types:go_default_library",
+            "//vendor/github.com/docker/go-units:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

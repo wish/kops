@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "timeconv.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/timeconv",
+    importpath = "k8s.io/helm/pkg/timeconv",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/golang/protobuf/ptypes/timestamp:go_default_library"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["timeconv_test.go"],
+    embed = [":go_default_library"],
+)

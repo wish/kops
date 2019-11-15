@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["crd.go"],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/staging/src/k8s.io/csi-api/pkg/crd",
+    importpath = "k8s.io/kubernetes/staging/src/k8s.io/csi-api/pkg/crd",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["crd_test.go"],
+    embed = [":go_default_library"],
+    deps = ["//vendor/k8s.io/apimachinery/pkg/util/diff:go_default_library"],
+)

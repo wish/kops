@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["messaging.go"],
+    importmap = "k8s.io/kops/vendor/github.com/gophercloud/gophercloud/acceptance/openstack/messaging/v2",
+    importpath = "github.com/gophercloud/gophercloud/acceptance/openstack/messaging/v2",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/gophercloud/gophercloud:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/tools:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/messaging/v2/claims:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/messaging/v2/messages:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/messaging/v2/queues:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/pagination:go_default_library",
+    ],
+)

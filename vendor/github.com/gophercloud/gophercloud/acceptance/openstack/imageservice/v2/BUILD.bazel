@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["imageservice.go"],
+    importmap = "k8s.io/kops/vendor/github.com/gophercloud/gophercloud/acceptance/openstack/imageservice/v2",
+    importpath = "github.com/gophercloud/gophercloud/acceptance/openstack/imageservice/v2",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/gophercloud/gophercloud:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/tools:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/imageservice/v2/imagedata:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/imageservice/v2/imageimport:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/imageservice/v2/images:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/openstack/imageservice/v2/tasks:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/testhelper:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["imagedata_test.go"],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/clients:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/acceptance/tools:go_default_library",
+        "//vendor/github.com/gophercloud/gophercloud/testhelper:go_default_library",
+    ],
+)

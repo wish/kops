@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "certs.go",
+        "constant.go",
+        "doc.go",
+        "generic.go",
+        "token.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/cmd/kubeadm/app/cmd/options",
+    importpath = "k8s.io/kubernetes/cmd/kubeadm/app/cmd/options",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/spf13/pflag:go_default_library",
+        "//vendor/k8s.io/apiserver/pkg/util/flag:go_default_library",
+        "//vendor/k8s.io/cluster-bootstrap/token/api:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta1:go_default_library",
+        "//vendor/k8s.io/kubernetes/cmd/kubeadm/app/constants:go_default_library",
+    ],
+)

@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -49,6 +49,25 @@ go_library(
         "@io_bazel_rules_go//go/platform:windows": [
             "//vendor/github.com/Azure/go-ansiterm/winterm:go_default_library",
             "//vendor/github.com/docker/docker/pkg/term/windows:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "ascii_test.go",
+        "proxy_test.go",
+        "term_linux_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+    ] + select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/google/go-cmp/cmp:go_default_library",
         ],
         "//conditions:default": [],
     }),

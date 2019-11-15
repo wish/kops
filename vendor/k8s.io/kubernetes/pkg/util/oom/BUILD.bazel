@@ -1,0 +1,34 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "oom.go",
+        "oom_fake.go",
+        "oom_linux.go",
+        "oom_unsupported.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/pkg/util/oom",
+    importpath = "k8s.io/kubernetes/pkg/util/oom",
+    visibility = ["//visibility:public"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/k8s.io/klog:go_default_library",
+            "//vendor/k8s.io/kubernetes/pkg/kubelet/cm/util:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["oom_linux_test.go"],
+    embed = [":go_default_library"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/stretchr/testify/assert:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "autohelp.go",
+        "dump.go",
+        "eval.go",
+        "multi_arg.go",
+        "rfc.go",
+        "rfc_list.go",
+        "tech_support.go",
+        "version.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/hashicorp/go-sockaddr/cmd/sockaddr/command",
+    importpath = "github.com/hashicorp/go-sockaddr/cmd/sockaddr/command",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/hashicorp/errwrap:go_default_library",
+        "//vendor/github.com/hashicorp/go-sockaddr:go_default_library",
+        "//vendor/github.com/hashicorp/go-sockaddr/template:go_default_library",
+        "//vendor/github.com/mitchellh/cli:go_default_library",
+        "//vendor/github.com/mitchellh/go-wordwrap:go_default_library",
+        "//vendor/github.com/ryanuber/columnize:go_default_library",
+    ],
+)

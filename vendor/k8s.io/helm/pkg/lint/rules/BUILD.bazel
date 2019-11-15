@@ -1,0 +1,39 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "chartfile.go",
+        "template.go",
+        "values.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/lint/rules",
+    importpath = "k8s.io/helm/pkg/lint/rules",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/semver:go_default_library",
+        "//vendor/github.com/asaskevich/govalidator:go_default_library",
+        "//vendor/github.com/ghodss/yaml:go_default_library",
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/engine:go_default_library",
+        "//vendor/k8s.io/helm/pkg/lint/support:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+        "//vendor/k8s.io/helm/pkg/timeconv:go_default_library",
+        "//vendor/k8s.io/helm/pkg/version:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "chartfile_test.go",
+        "template_test.go",
+    ],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/lint/support:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+    ],
+)

@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "engine.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/engine",
+    importpath = "k8s.io/helm/pkg/engine",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/Masterminds/sprig:go_default_library",
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["engine_test.go"],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/golang/protobuf/ptypes/any:go_default_library",
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+    ],
+)

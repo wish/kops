@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "directory.go",
+        "directory_unix.go",
+        "directory_windows.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/directory",
+    importpath = "github.com/docker/docker/pkg/directory",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["directory_test.go"],
+    embed = [":go_default_library"],
+)

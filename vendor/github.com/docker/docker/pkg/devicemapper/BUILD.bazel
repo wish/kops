@@ -1,0 +1,25 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "devmapper.go",
+        "devmapper_log.go",
+        "devmapper_wrapper.go",
+        "devmapper_wrapper_dynamic.go",
+        "devmapper_wrapper_dynamic_deferred_remove.go",
+        "ioctl.go",
+        "log.go",
+    ],
+    cgo = True,
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/pkg/devicemapper",
+    importpath = "github.com/docker/docker/pkg/devicemapper",
+    visibility = ["//visibility:public"],
+    deps = select({
+        "@io_bazel_rules_go//go/platform:linux": [
+            "//vendor/github.com/sirupsen/logrus:go_default_library",
+            "//vendor/golang.org/x/sys/unix:go_default_library",
+        ],
+        "//conditions:default": [],
+    }),
+)

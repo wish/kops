@@ -1,0 +1,37 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "fscache.go",
+        "naivedriver.go",
+    ],
+    importmap = "k8s.io/kops/vendor/github.com/docker/docker/builder/fscache",
+    importpath = "github.com/docker/docker/builder/fscache",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/boltdb/bolt:go_default_library",
+        "//vendor/github.com/docker/docker/builder:go_default_library",
+        "//vendor/github.com/docker/docker/builder/remotecontext:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/archive:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/directory:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/stringid:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/tarsum:go_default_library",
+        "//vendor/github.com/moby/buildkit/session/filesync:go_default_library",
+        "//vendor/github.com/pkg/errors:go_default_library",
+        "//vendor/github.com/sirupsen/logrus:go_default_library",
+        "//vendor/github.com/tonistiigi/fsutil:go_default_library",
+        "//vendor/golang.org/x/sync/singleflight:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["fscache_test.go"],
+    embed = [":go_default_library"],
+    deps = [
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+        "//vendor/github.com/moby/buildkit/session/filesync:go_default_library",
+    ],
+)

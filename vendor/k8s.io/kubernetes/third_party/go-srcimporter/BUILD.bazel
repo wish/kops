@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["srcimporter.go"],
+    importmap = "k8s.io/kops/vendor/k8s.io/kubernetes/third_party/go-srcimporter",
+    importpath = "k8s.io/kubernetes/third_party/go-srcimporter",
+    visibility = ["//visibility:public"],
+)

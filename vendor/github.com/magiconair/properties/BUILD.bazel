@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -15,4 +15,18 @@ go_library(
     importmap = "k8s.io/kops/vendor/github.com/magiconair/properties",
     importpath = "github.com/magiconair/properties",
     visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "benchmark_test.go",
+        "decode_test.go",
+        "example_test.go",
+        "integrate_test.go",
+        "load_test.go",
+        "properties_test.go",
+    ],
+    embed = [":go_default_library"],
+    deps = ["//vendor/github.com/magiconair/properties/_third_party/gopkg.in/check.v1:go_default_library"],
 )

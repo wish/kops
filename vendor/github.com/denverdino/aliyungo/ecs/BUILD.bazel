@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -29,6 +29,35 @@ go_library(
     importmap = "k8s.io/kops/vendor/github.com/denverdino/aliyungo/ecs",
     importpath = "github.com/denverdino/aliyungo/ecs",
     visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/denverdino/aliyungo/common:go_default_library",
+        "//vendor/github.com/denverdino/aliyungo/util:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "client_test.go",
+        "config_test.go",
+        "disks_test.go",
+        "images_test.go",
+        "instance_types_test.go",
+        "instances_test.go",
+        "monitoring_test.go",
+        "nat_gateway_test.go",
+        "networks_test.go",
+        "route_tables_test.go",
+        "router_interface_test.go",
+        "security_groups_test.go",
+        "snapshots_test.go",
+        "snat_entry_test.go",
+        "tags_test.go",
+        "vpcs_test.go",
+        "vrouters_test.go",
+        "vswitches_test.go",
+    ],
+    embed = [":go_default_library"],
     deps = [
         "//vendor/github.com/denverdino/aliyungo/common:go_default_library",
         "//vendor/github.com/denverdino/aliyungo/util:go_default_library",

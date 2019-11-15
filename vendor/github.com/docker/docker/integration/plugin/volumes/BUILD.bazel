@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "helpers_test.go",
+        "main_test.go",
+        "mounts_test.go",
+    ],
+    deps = [
+        "//vendor/github.com/docker/docker/api/types:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/daemon:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/environment:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/fixtures/plugin:go_default_library",
+        "//vendor/github.com/docker/docker/pkg/locker:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/skip:go_default_library",
+        "//vendor/github.com/pkg/errors:go_default_library",
+    ],
+)

@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["gen_known_imports.go"],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/bazel-gazelle/language/proto/gen",
+    importpath = "github.com/bazelbuild/bazel-gazelle/language/proto/gen",
+    visibility = ["//visibility:private"],
+    deps = ["//vendor/github.com/bazelbuild/bazel-gazelle/label:go_default_library"],
+)
+
+go_binary(
+    name = "gen",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

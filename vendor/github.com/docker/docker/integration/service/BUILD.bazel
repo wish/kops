@@ -1,0 +1,32 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "go_default_test",
+    srcs = [
+        "create_test.go",
+        "inspect_test.go",
+        "main_test.go",
+        "network_test.go",
+        "plugin_test.go",
+    ],
+    deps = [
+        "//vendor/github.com/docker/docker/api/types:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/container:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/filters:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/network:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/swarm:go_default_library",
+        "//vendor/github.com/docker/docker/api/types/swarm/runtime:go_default_library",
+        "//vendor/github.com/docker/docker/client:go_default_library",
+        "//vendor/github.com/docker/docker/integration/internal/container:go_default_library",
+        "//vendor/github.com/docker/docker/integration/internal/swarm:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/daemon:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/environment:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/fixtures/plugin:go_default_library",
+        "//vendor/github.com/docker/docker/internal/test/registry:go_default_library",
+        "//vendor/github.com/google/go-cmp/cmp:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/assert/cmp:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/poll:go_default_library",
+        "//vendor/github.com/gotestyourself/gotestyourself/skip:go_default_library",
+    ],
+)

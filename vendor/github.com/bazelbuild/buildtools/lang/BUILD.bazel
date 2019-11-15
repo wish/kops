@@ -1,0 +1,10 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["tables.gen.go"],
+    importmap = "k8s.io/kops/vendor/github.com/bazelbuild/buildtools/lang",
+    importpath = "github.com/bazelbuild/buildtools/lang",
+    visibility = ["//visibility:public"],
+    deps = ["//vendor/github.com/bazelbuild/buildtools/build_proto:go_default_library"],
+)

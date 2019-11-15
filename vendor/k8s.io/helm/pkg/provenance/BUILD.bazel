@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "doc.go",
+        "sign.go",
+    ],
+    importmap = "k8s.io/kops/vendor/k8s.io/helm/pkg/provenance",
+    importpath = "k8s.io/helm/pkg/provenance",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//vendor/github.com/ghodss/yaml:go_default_library",
+        "//vendor/golang.org/x/crypto/openpgp:go_default_library",
+        "//vendor/golang.org/x/crypto/openpgp/clearsign:go_default_library",
+        "//vendor/golang.org/x/crypto/openpgp/packet:go_default_library",
+        "//vendor/k8s.io/helm/pkg/chartutil:go_default_library",
+        "//vendor/k8s.io/helm/pkg/proto/hapi/chart:go_default_library",
+    ],
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["sign_test.go"],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = ["//vendor/golang.org/x/crypto/openpgp/errors:go_default_library"],
+)
